@@ -31,7 +31,7 @@ public class Setting : JASetting {
 
     public void ShareJipperKeyCode(bool enable) {
         if(enable) {
-            KeyCodes = JipperResourcePackAPI.GetKey16();
+            KeyCodes = JipperResourcePackAPI.GetKey16() ?? throw new NullReferenceException("Jipper Resource Pack KeyCodes is null");
             KeyCodeJipperResourcePack = true;
         } else {
             KeyCode[] keyCodes = new KeyCode[16];
