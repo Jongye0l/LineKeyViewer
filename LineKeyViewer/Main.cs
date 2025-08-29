@@ -4,6 +4,7 @@ using JALib.Core;
 using JALib.Tools;
 using LineKeyViewer.Component;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
@@ -45,7 +46,10 @@ public class Main() : JAMod(typeof(Setting)) {
         (threads[0] = new Thread(KeyInputManager.ListenKey)).Start();
         (threads[1] = new Thread(Winking)).Start();
         Application.quitting += OnQuitting;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
+
+    private static void OnSceneUnloaded(Scene _) => ResultHandler.Reset();
 
     private static void OnQuitting() {
         foreach(Thread thread in threads) thread.Abort();
@@ -169,6 +173,7 @@ public class Main() : JAMod(typeof(Setting)) {
     }
 
     protected override void OnDisable() {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
         if(KeyViewer) {
             Object.Destroy(KeyViewer.gameObject);
             KeyViewer = null;
