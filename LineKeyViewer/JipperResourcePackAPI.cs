@@ -13,6 +13,7 @@ public class JipperResourcePackAPI {
     private JAMod Mod;
     private JASetting Setting;
     private Action UpdateKeyLimitAction;
+    public static event Action OnLoaded;
 
     private JipperResourcePackAPI(JAMod mod) {
         Mod = mod;
@@ -24,6 +25,7 @@ public class JipperResourcePackAPI {
     private void SetupSetting() {
         Setting = settingType.GetValue<JASetting>("Settings");
         if(Setting == null) Task.Yield().GetAwaiter().OnCompleted(SetupSetting);
+        else OnLoaded?.Invoke();
     }
 
     public static JipperResourcePackAPI GetAPI() {

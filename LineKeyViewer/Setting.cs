@@ -22,6 +22,13 @@ public class Setting : JASetting {
     
     public Setting(JAMod mod, JObject jsonObject = null) : base(mod, jsonObject) {
         JipperResourcePackAPI.CheckJipperResourcePack();
+        if(ShareJipperResourcePack) {
+            try {
+                ShareJipperKeyCode(true);
+            } catch {
+                JipperResourcePackAPI.OnLoaded += () => ShareJipperKeyCode(true);
+            }
+        }
     }
 
     public override void PutFieldData() {
